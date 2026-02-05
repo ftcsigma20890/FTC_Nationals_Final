@@ -53,7 +53,7 @@ public class Mechanisms {
          shooter.startShooter();
       };
       intake.startIntake();
-      Wait.mySleep(2000);
+      Wait.mySleep(1500);
       shooter.resetRamp();
       intake.stopIntake();
    }
@@ -84,7 +84,9 @@ public class Mechanisms {
       return vision.isValid() && Math.abs(vision.getTy()) < 1.2;
    }
 
-
+   public boolean isTurretBusy(){
+      return turret.isBusy();
+   }
 
    public void setTurretTicks(int ticks) {
       turret.setTurretTicks(ticks);

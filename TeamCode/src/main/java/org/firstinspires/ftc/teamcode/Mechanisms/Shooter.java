@@ -22,7 +22,7 @@ public class Shooter {
    public static double shortshootpos = 0.3;
    public static double divideShootTime = 1;
    public static double longvelocity = 1750;
-   public static double shortvelocity = 1400;
+   public static double shortvelocity = 1450;
    public double velocity = 1400, hood = 0;
    DcMotorEx leftMotor, rightMotor;
 

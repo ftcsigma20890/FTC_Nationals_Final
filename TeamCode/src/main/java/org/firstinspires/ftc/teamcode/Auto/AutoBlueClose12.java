@@ -21,7 +21,7 @@ public class AutoBlueClose12 extends LinearOpMode {
    Mechanisms mechanisms;
 
    @Override
-   public void runOpMode() throws InterruptedException {
+   public void runOpMode() {
 
       follower = Constants.createFollower(hardwareMap);
       follower.setStartingPose(new Pose(34.298, 135.777, Math.toRadians(180)));
@@ -92,12 +92,11 @@ public class AutoBlueClose12 extends LinearOpMode {
          .build();
 
       follower.followPath(new PathChain(myPath.getPath(pathState)), 0.7, true);
-      mechanisms.setTurretTicks(98);
+      mechanisms.setTurretTicks(170);
       mechanisms.pipelineSwitch(0);
 
       waitForStart();
       try {
-
          while (opModeIsActive()) {
             if (!follower.isBusy()) {
                if (pathState == 0 || pathState == 2 || pathState == 4 || pathState == 6) {
@@ -111,13 +110,13 @@ public class AutoBlueClose12 extends LinearOpMode {
                   mechanisms.startIntake();
                }
                if (pathState == 0) {
-                  mechanisms.setTurretTicks(320);
+                  mechanisms.setTurretTicks(533);
                }
                if (pathState == 2) {
-                  mechanisms.setTurretTicks(230);
+                  mechanisms.setTurretTicks(383);
                }
                if (pathState == 4) {
-                  mechanisms.setTurretTicks(255);
+                  mechanisms.setTurretTicks(425);
                }
                pathState++;
                follower.followPath(myPath.getPath(pathState));
@@ -131,7 +130,7 @@ public class AutoBlueClose12 extends LinearOpMode {
             follower.update();
          }
       } finally {
-//         tu
+         mechanisms.setTurretTicks(0);
       }
    }
 

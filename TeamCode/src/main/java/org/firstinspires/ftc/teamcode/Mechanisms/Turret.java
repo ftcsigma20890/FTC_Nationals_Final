@@ -18,8 +18,8 @@ public class Turret {
    public static double maxPower = 1;
    public static double turretInitPower = 0.3;
    public static double turretOffset = 0;
-   double minticklimit = -500;
-   double maxtickslimit = 500;
+   double minticklimit = -400;
+   double maxtickslimit = 800;
    int turretZero = 0;
    private DcMotorEx turretMotor;
    private DigitalChannel magneticSensor;
@@ -72,6 +72,8 @@ public class Turret {
       power = (Math.max(-maxPower, Math.min(maxPower, power)));
       if (!turretMotor.isBusy()) {
          turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      }else{
+         return 0;
       }
 
       if (power > 0) {
