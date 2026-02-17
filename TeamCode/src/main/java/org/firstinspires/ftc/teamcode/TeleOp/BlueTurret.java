@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Turret;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @TeleOp
-public class CheckTurret extends LinearOpMode {
+public class BlueTurret extends LinearOpMode {
 
     Turret turret;
 
