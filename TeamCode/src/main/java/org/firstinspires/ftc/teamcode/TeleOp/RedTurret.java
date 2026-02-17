@@ -9,19 +9,19 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Turret;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @TeleOp
-public class CheckTurret extends LinearOpMode {
+public class RedTurret extends LinearOpMode {
 
     Turret turret;
 
     // Fixed point A
-    double Ax = 8;
+    double Ax = 136;
     double Ay = 139;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         Follower follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(32, 135, Math.toRadians(90)));
+        follower.setStartingPose(new Pose(112, 135, Math.toRadians(90)));
         follower.update();
 
         turret = new Turret(hardwareMap);
@@ -33,14 +33,15 @@ public class CheckTurret extends LinearOpMode {
 
             follower.update();
             follower.setTeleOpDrive(-gamepad1.left_stick_y,-gamepad1.left_stick_x, -gamepad1.right_stick_x
-            ,true);
+                    ,true);
 
             Pose pose = follower.getPose();
             double Bx = pose.getX();
             double By = pose.getY();
 
             // C follows robot X but fixed Y = 144
-            double Cx = Bx;
+            double Cx;
+            Cx = Bx;
             double Cy = 144;
 
             double theta = calculateAngle(Ax, Ay, Bx, By, Cx, Cy);
@@ -84,7 +85,7 @@ public class CheckTurret extends LinearOpMode {
     }
 
     public double getTurretDegrees(double theta, double headingDegrees) {
-        double turretDegrees = 180 + 90 + theta - headingDegrees + 10;
+        double turretDegrees = 180 + 90 - theta - headingDegrees - 10;
         if (turretDegrees > 360) {
             turretDegrees %= 360;
         } else if (turretDegrees < 0) {

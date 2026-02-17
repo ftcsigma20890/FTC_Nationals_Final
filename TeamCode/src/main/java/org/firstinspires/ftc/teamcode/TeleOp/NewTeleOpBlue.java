@@ -100,12 +100,12 @@ public class NewTeleOpBlue extends LinearOpMode {
 //         if (colorCommand.ledState==true){
 //            gamepad2.rumble(2500);
 //         }
-            if (gamepad1.right_trigger > 0.25) {
+            if (gamepad1.left_trigger > 0.25) {
                 follower.setMaxPower(0.4);
             } else {
                 follower.setMaxPower(1);
             }
-            follower.setTeleOpDrive(-gamepad1.left_stick_y * 0.9, -gamepad1.left_stick_x * 0.9, -gamepad1.right_stick_x * 0.67, true);
+            follower.setTeleOpDrive(-gamepad1.left_stick_y * 0.9, -gamepad1.left_stick_x * 0.9, -gamepad1.right_stick_x * 0.367, true);
 //
             telemetry.addData("IntakeTimer: ", IntakeTimer.milliseconds());
             telemetry.addData("Distance: ", intakeColorSensor.getDistance(DistanceUnit.CM));

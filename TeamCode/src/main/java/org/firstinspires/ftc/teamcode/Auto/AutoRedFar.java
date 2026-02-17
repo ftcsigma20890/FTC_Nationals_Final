@@ -15,17 +15,16 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Configurable
 @Autonomous
-public class AutoRedClose12 extends LinearOpMode {
-    public static double intakeDriveSpeed = 0.6;
+public class AutoRedFar extends LinearOpMode {
+    public static double intakeDriveSpeed = 1;
     Follower follower;
     int pathState = 0;
     Mechanisms mechanisms;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(109.660, 135.955, Math.toRadians(0)));
+        follower.setStartingPose(new Pose(87.309, 6.873, Math.toRadians(0)));
         follower.setMaxPower(1);
         mechanisms = new Mechanisms(hardwareMap, telemetry);
 
@@ -33,68 +32,72 @@ public class AutoRedClose12 extends LinearOpMode {
                 .pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(109.660, 135.955),
+                                new Pose(87.309, 6.873),
 
-                                new Pose(88.000, 84.334)
+                                new Pose(86.000, 16.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .addPath(
-                        new BezierLine(
-                                new Pose(88.000, 84.334),
-
-                                new Pose(127.476, 83.330)
+                        new BezierCurve(
+                                new Pose(86.000, 16.000),
+                                new Pose(89.424, 41.572),
+                                new Pose(85.653, 33.889),
+                                new Pose(128.339, 35.179)
                         )
                 ).setTangentHeadingInterpolation()
+
                 .addPath(
                         new BezierLine(
-                                new Pose(127.476, 83.330),
+                                new Pose(128.339, 35.179),
 
-                                new Pose(87.916, 84.370)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-49))
-                .addPath(
-                        new BezierCurve(
-                                new Pose(87.916, 84.370),
-                                new Pose(96.398, 55.348),
-                                new Pose(128.145, 59.228)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(-49), Math.toRadians(0))
-                .addPath(
-                        new BezierLine(
-                                new Pose(128.145, 59.228),
-
-                                new Pose(87.744, 84.621)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-49))
-                .addPath(
-                        new BezierCurve(
-                                new Pose(87.744, 84.621),
-                                new Pose(86.522, 42.304),
-                                new Pose(105.163, 32.685),
-                                new Pose(130.214, 34.889)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(-49), Math.toRadians(0))
-                .addPath(
-                        new BezierLine(
-                                new Pose(130.214, 34.889),
-
-                                new Pose(87.705, 80)
+                                new Pose(86.305, 15.986)
                         )
                 ).setTangentHeadingInterpolation()
                 .setReversed()
                 .addPath(
                         new BezierLine(
-                                new Pose(87.705, 84.772),
+                                new Pose(86.305, 15.986),
 
-                                new Pose(120.618, 69.786)
+                                new Pose(133.288, 10.431)
+                        )
+                ).setTangentHeadingInterpolation()
+                .addPath(
+                        new BezierLine(
+                                new Pose(133.288, 10.431),
+
+                                new Pose(86.110, 15.994)
+                        )
+                ).setTangentHeadingInterpolation()
+                .setReversed()
+                .addPath(
+                        new BezierLine(
+                                new Pose(86.305, 15.986),
+
+                                new Pose(133.288, 10.431)
+                        )
+                ).setTangentHeadingInterpolation()
+                .addPath(
+                        new BezierLine(
+                                new Pose(133.288, 10.431),
+
+                                new Pose(86.110, 15.994)
+                        )
+                ).setTangentHeadingInterpolation()
+                .setReversed()
+                .addPath(
+                        new BezierLine(
+                                new Pose(86.110, 15.994),
+
+                                new Pose(101.489, 14.536)
                         )
                 ).setTangentHeadingInterpolation()
 
                 .build();
 
         follower.followPath(myPath.getPath(pathState));
-        mechanisms.setTurretTicks(-170);
-        mechanisms.pipelineSwitch(2);
+
+        mechanisms.pipelineSwitch(2 );
+        mechanisms.setTurretTicks(-260);
         waitForStart();
         while (opModeIsActive()) {
             if (!follower.isBusy()) {
@@ -104,38 +107,37 @@ public class AutoRedClose12 extends LinearOpMode {
                         mechanisms.update();
                     }
                     mechanisms.setTurretPower(0);
-                    mechanisms.startShortShooter();
+                    mechanisms.startLongShooter();
                     mechanisms.shoot();
                     mechanisms.startIntake();
                 }
-                if (pathState == 0) {
-                    mechanisms.setTurretTicks(-392);
-                }
-                if (pathState == 2) {
-                    mechanisms.setTurretTicks(-385);
-                }
-                if (pathState == 4) {
-                    mechanisms.setTurretTicks(-425);
-                }
                 pathState++;
-                if(myPath.length() <= pathState){
-                    mechanisms.setTurretTicks(0);
-                    while(mechanisms.isTurretBusy());
-                    break;
+                if (pathState == 4 || pathState == 6) {
+                    sleep(1000);
                 }
-                if (pathState == 1 || pathState == 3|| pathState == 5) {
-                    follower.followPath(new PathChain(myPath.getPath(pathState)), intakeDriveSpeed, true);
+                if (pathState == 1 || pathState == 2 || pathState == 4) {
+                    follower.followPath(new PathChain(myPath.getPath(pathState)), 0.55, true);
                 } else {
                     follower.followPath(myPath.getPath(pathState));
                 }
             } else {
                 if (pathState == 0) {
-                    mechanisms.startShortShooter();
+                    mechanisms.startLongShooter();
+                }
+                if (pathState == myPath.length() - 1) {
+                    mechanisms.setTurretTicks(0);
+                } else if (pathState == 0) {
+                    mechanisms.setTurretTicks(-240);
+                } else if (pathState == 2) {
+                    mechanisms.setTurretTicks(-190);
+                } else if (pathState == 4 || pathState == 6) {
+                    mechanisms.setTurretTicks(-332);
+                } else {
+                    mechanisms.setTurretTicks(-20);
                 }
             }
             telemetry.update();
             follower.update();
         }
     }
-
 }

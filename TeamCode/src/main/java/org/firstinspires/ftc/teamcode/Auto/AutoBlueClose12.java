@@ -42,7 +42,7 @@ public class AutoBlueClose12 extends LinearOpMode {
          // Path2
          .addPath(
             new BezierLine(
-               new Pose(50.000, 83.500),
+               new Pose(54.000, 83.500),
                new Pose(20.000, 83.500)
             )
          )
@@ -84,10 +84,17 @@ public class AutoBlueClose12 extends LinearOpMode {
             new BezierLine(
                new Pose(12.886, 35.933),
 
-               new Pose(51.752, 84.565)
+                  new Pose(51.752, 84.565)
             )
          ).setTangentHeadingInterpolation()
          .setReversed()
+.addPath(
+            new BezierLine(
+               new Pose(51.752, 84.565),
+
+               new Pose(30.752, 84.565)
+            )
+         ).setTangentHeadingInterpolation()
 
          .build();
 
@@ -124,7 +131,9 @@ public class AutoBlueClose12 extends LinearOpMode {
                if (pathState == 0) {
                   mechanisms.startShortShooter();
                }
-
+               if (pathState == myPath.length() - 1) {
+                  mechanisms.setTurretTicks(0);
+               }
             }
             telemetry.update();
             follower.update();
