@@ -105,11 +105,9 @@ public class Turret {
         lastError = error;
         return power;
     }
-
     public void setPower(double power) {
         turretMotor.setPower(power);
     }
-
 
     public void stop() {
         turretMotor.setPower(0);

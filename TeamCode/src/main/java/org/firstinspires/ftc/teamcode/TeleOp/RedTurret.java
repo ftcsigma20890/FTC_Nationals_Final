@@ -16,6 +16,8 @@ public class RedTurret extends LinearOpMode {
     // Fixed point A
     double Ax = 136;
     double Ay = 139;
+    double targetX = 127;
+    double targetY = 130;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -53,6 +55,7 @@ public class RedTurret extends LinearOpMode {
             telemetry.addData("Turret Angle: ", turret.getTurretDegrees());
             telemetry.addData("Theta Angle:", theta);
             telemetry.addData("Turret Degree: ", turretDegrees);
+            telemetry.addData("Distance", getDistance(pose));
             telemetry.update();
             turret.setTurretTicks(turret.angleToTicks(turretDegrees));
         }
@@ -92,6 +95,14 @@ public class RedTurret extends LinearOpMode {
             turretDegrees = 360 - turretDegrees;
         }
         return turretDegrees;
+    }
+
+    public double getDistance(Pose pose){
+        double dx = targetX - pose.getX();
+        double dy = targetY - pose.getY();
+
+        return Math.sqrt(dx * dx + dy * dy);
+
     }
 
 }

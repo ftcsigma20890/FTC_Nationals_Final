@@ -13,6 +13,9 @@ public class BlueTurret extends LinearOpMode {
 
     Turret turret;
 
+    double targetX = 17;
+    double targetY = 132;
+
     // Fixed point A
     double Ax = 8;
     double Ay = 139;
@@ -40,7 +43,8 @@ public class BlueTurret extends LinearOpMode {
             double By = pose.getY();
 
             // C follows robot X but fixed Y = 144
-            double Cx = Bx;
+            double Cx;
+            Cx = Bx;
             double Cy = 144;
 
             double theta = calculateAngle(Ax, Ay, Bx, By, Cx, Cy);
@@ -52,6 +56,7 @@ public class BlueTurret extends LinearOpMode {
             telemetry.addData("Turret Angle: ", turret.getTurretDegrees());
             telemetry.addData("Theta Angle:", theta);
             telemetry.addData("Turret Degree: ", turretDegrees);
+            telemetry.addData("Distance", getDistance(pose));   
             telemetry.update();
             turret.setTurretTicks(turret.angleToTicks(turretDegrees));
         }
@@ -91,6 +96,14 @@ public class BlueTurret extends LinearOpMode {
             turretDegrees = 360 - turretDegrees;
         }
         return turretDegrees;
+    }
+
+    public double getDistance(Pose pose){
+        double dx = targetX - pose.getX();
+        double dy = targetY - pose.getY();
+
+        return Math.sqrt(dx * dx + dy * dy);
+
     }
 
 }
